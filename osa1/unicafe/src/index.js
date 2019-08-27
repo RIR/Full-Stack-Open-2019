@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 const Header = ({ text }) => (
-  <>
+  <div>
     <h1>{text}</h1>
-  </>
+  </div>
 );
 
 const Button = ({ text, handleClick }) => (
@@ -22,6 +22,16 @@ const Statistic = ({ text, value }) => (
   </div>
 );
 
+const Statistics = ({ statistics }) => {
+  return (
+    <div>
+      {statistics.map(stat => (
+        <Statistic key={stat.text} text={stat.text} value={stat.value} />
+      ))}
+    </div>
+  );
+};
+
 const App = () => {
   // tallenna napit omaan tilaansa
   const [good, setGood] = useState(0);
@@ -33,6 +43,15 @@ const App = () => {
   const average = sum / all || 0;
   const positive = `${(good / all) * 100 || 0} %`;
 
+  const statistics = [
+    { text: 'Good', value: good },
+    { text: 'Neutral', value: neutral },
+    { text: 'Bad', value: bad },
+    { text: 'All', value: all },
+    { text: 'Average', value: average },
+    { text: 'Positive', value: positive }
+  ];
+
   return (
     <div>
       <Header text="Give Feedback" />
@@ -40,12 +59,7 @@ const App = () => {
       <Button text="Neutral" handleClick={() => setNeutral(neutral + 1)} />
       <Button text="Bad" handleClick={() => setBad(bad + 1)} />
       <Header text="Statistics" />
-      <Statistic text="Good" value={good} />
-      <Statistic text="Neutral" value={neutral} />
-      <Statistic text="Bad" value={bad} />
-      <Statistic text="All" value={all} />
-      <Statistic text="Average" value={average} />
-      <Statistic text="Positive" value={positive} />
+      <Statistics statistics={statistics} />
     </div>
   );
 };
