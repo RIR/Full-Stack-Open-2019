@@ -23,13 +23,14 @@ const Statistic = ({ text, value }) => (
 );
 
 const Statistics = ({ statistics }) => {
-  return (
-    <div>
-      {statistics.map(stat => (
-        <Statistic key={stat.text} text={stat.text} value={stat.value} />
-      ))}
-    </div>
-  );
+  const hasFeedBack = statistics.all.value > 0;
+  const showFeedback = Object.values(statistics).map(stat => (
+    <Statistic key={stat.text} text={stat.text} value={stat.value} />
+  ));
+
+  const showNoFeedback = <p>No feedback given</p>;
+
+  return <div>{hasFeedBack ? showFeedback : showNoFeedback}</div>;
 };
 
 const App = () => {
@@ -43,14 +44,14 @@ const App = () => {
   const average = sum / all || 0;
   const positive = `${(good / all) * 100 || 0} %`;
 
-  const statistics = [
-    { text: 'Good', value: good },
-    { text: 'Neutral', value: neutral },
-    { text: 'Bad', value: bad },
-    { text: 'All', value: all },
-    { text: 'Average', value: average },
-    { text: 'Positive', value: positive }
-  ];
+  const statistics = {
+    good: { text: 'Good', value: good },
+    neutral: { text: 'Neutral', value: neutral },
+    bad: { text: 'Bad', value: bad },
+    all: { text: 'All', value: all },
+    average: { text: 'Average', value: average },
+    positive: { text: 'Positive', value: positive }
+  };
 
   return (
     <div>
