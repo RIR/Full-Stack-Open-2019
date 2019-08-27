@@ -9,15 +9,25 @@ const Button = ({ text, handleClick }) => (
   </div>
 );
 
-const App = props => {
+const App = ({ anecdotes }) => {
+  const initialVotesState = Array(anecdotes.length).fill(0);
+
   const [selected, setSelected] = useState(0);
+  const [votes, setVote] = useState(initialVotesState);
 
-  const showAnecdote = () => setSelected(Math.floor(Math.random() * props.anecdotes.length));
+  const showAnecdote = () => setSelected(Math.floor(Math.random() * anecdotes.length));
 
+  const voteAnecdote = () => {
+    const copy = [...votes];
+    copy[selected] += 1;
+    setVote(copy);
+  };
   return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
-      <Button text="Random Anecdote" handleClick={showAnecdote} />
-      {props.anecdotes[selected]}
+      {anecdotes[selected]}
+      <p>has {votes[selected]} votes</p>
+      <Button text="Vote" handleClick={voteAnecdote} />
+      <Button text="Next Anecdote" handleClick={showAnecdote} />
     </div>
   );
 };
