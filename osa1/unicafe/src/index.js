@@ -15,18 +15,23 @@ const Button = ({ text, handleClick }) => (
 );
 
 const Statistic = ({ text, value }) => (
-  <div>
-    <b>
-      {text} {value}
-    </b>
-  </div>
+  <tr>
+    <td>{text}</td>
+    <td>{value}</td>
+  </tr>
 );
 
 const Statistics = ({ statistics }) => {
   const hasFeedBack = statistics.all.value > 0;
-  const showFeedback = Object.values(statistics).map(stat => (
-    <Statistic key={stat.text} text={stat.text} value={stat.value} />
-  ));
+  const showFeedback = (
+    <table>
+      <tbody>
+        {Object.values(statistics).map(stat => (
+          <Statistic key={stat.text} text={stat.text} value={stat.value} />
+        ))}
+      </tbody>
+    </table>
+  );
 
   const showNoFeedback = <p>No feedback given</p>;
 
