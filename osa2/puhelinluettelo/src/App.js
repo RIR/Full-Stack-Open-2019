@@ -31,7 +31,11 @@ const App = () => {
   const handleNumberChange = event => setNewNumber(event.target.value);
   const handleFilterChange = event => setFilter(event.target.value);
 
-  // Maybe "startsWith" would be more appropriate, but assignment example 2.9* seems to use something like this
+  /*
+  Maybe "startsWith" would be more appropriate, but assignment example 2.9* seems to use something like this.
+  Also didn't feel the need to create a state for this, since it can be derived from persons and filter states.
+  Not sure, what's the convention in these cases.
+  */
   const filteredPersons = persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()));
 
   return (
