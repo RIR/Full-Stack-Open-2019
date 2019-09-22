@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Persons from './components/Persons';
+import PersonForm from './components/PersonForm';
 
 const App = () => {
   const [persons, setPersons] = useState([{ name: 'Arto Hellas' }]);
@@ -6,28 +8,26 @@ const App = () => {
 
   const addPerson = event => {
     event.preventDefault();
+
     const person = { name: newName };
-    setPersons(persons.concat(person));
-    setNewName('');
+    const alredyAdded = person => persons.some(p => p.name === person.name);
+
+    if (alredyAdded(person)) {
+      window.alert(`${person.name} is already added to phonebook`);
+    } else {
+      setPersons(persons.concat(person));
+      setNewName('');
+    }
   };
 
   const handleNameChange = event => setNewName(event.target.value);
 
-  const rows = () => persons.map(({ name }) => <li key={name}>{name}</li>);
-
   return (
     <div>
       <h2>Phonebook</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <PersonForm onChange={handleNameChange} onSubmit={addPerson} value={newName} />
       <h2>Numbers</h2>
-      <ul>{rows()}</ul>
+      <Persons persons={persons} />
     </div>
   );
 };
