@@ -21,7 +21,7 @@ const App = () => {
   return (
     <div>
       <Filter value={filter} onChange={handleFilterChange} />
-      {filteredCountries.length > 0 && <Countries countries={filteredCountries} />}
+      {filteredCountries.length > 0 && <Countries initialCountries={filteredCountries} />}
     </div>
   );
 };

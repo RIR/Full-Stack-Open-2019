@@ -1,16 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import DisplayCountries from './DisplayCountries';
 import DisplayCountry from './DisplayCountry';
 
-const Countries = ({ countries }) => {
-  const singleCountry = countries.length === 1;
-  const { name, capital, population, languages, flag } = countries[0];
-  console.log('Country:', countries[0]);
+const Countries = ({ initialCountries }) => {
+  const [countries, setCountries] = useState([]);
 
-  return singleCountry ? (
-    <DisplayCountry name={name} capital={capital} population={population} languages={languages} flag={flag} />
-  ) : (
-    <DisplayCountries countries={countries} />
+  useEffect(() => {
+    setCountries(initialCountries);
+  }, [initialCountries]);
+
+  const length = countries.length;
+  const tooManyMatches = length > 10;
+  const singleMatch = length === 1;
+
+  const displayNotification = () => <p>Too many matches, specify another filter</p>;
+
+  const displaySingleCountry = () => {
+    const { name, capital, population, languages, flag } = countries[0];
+    return <DisplayCountry name={name} capital={capital} population={population} languages={languages} flag={flag} />;
+  };
+
+  const handleCLick = event => setCountries([countries.find(country => country.name === event.target.id)]);
+
+  const displayMultipleCountries = () => <DisplayCountries countries={countries} handleClick={handleCLick} />;
+
+  return (
+    <div>
+      {tooManyMatches ? displayNotification() : singleMatch ? displaySingleCountry() : displayMultipleCountries()}
+    </div>
   );
 };
 

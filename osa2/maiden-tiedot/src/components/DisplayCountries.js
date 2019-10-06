@@ -1,17 +1,16 @@
 import React from 'react';
 
-const DisplayCountries = ({ countries }) => {
-  const tooManyMatches = countries.length > 10;
-  const notification = <p>Too many matches, specify another filter</p>;
-  const countryList = (
-    <ul>
-      {countries.map(({ name }) => (
-        <li key={name}>{name}</li>
-      ))}
-    </ul>
-  );
-
-  return tooManyMatches ? notification : countryList;
-};
+const DisplayCountries = ({ countries, handleClick }) => (
+  <ul>
+    {countries.map(({ name }) => (
+      <li key={name}>
+        {name}
+        <button id={name} style={{ margin: '10px', background: '#FFF' }} onClick={handleClick}>
+          Show
+        </button>
+      </li>
+    ))}
+  </ul>
+);
 
 export default DisplayCountries;
