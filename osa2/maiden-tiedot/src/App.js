@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Countries, Filter } from './components';
+import { DisplayCountries, Filter } from './components';
 
 const App = () => {
   const [countries, setCountries] = useState([]);
@@ -8,8 +8,6 @@ const App = () => {
 
   useEffect(() => {
     axios.get('https://restcountries.eu/rest/v2/all').then(response => {
-      console.log('Countries:', response);
-
       setCountries(response.data);
     });
   }, []);
@@ -21,7 +19,7 @@ const App = () => {
   return (
     <div>
       <Filter value={filter} onChange={handleFilterChange} />
-      {filteredCountries.length > 0 && <Countries initialCountries={filteredCountries} />}
+      {filteredCountries.length > 0 && <DisplayCountries initialCountries={filteredCountries} />}
     </div>
   );
 };

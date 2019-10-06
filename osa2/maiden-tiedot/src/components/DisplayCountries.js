@@ -1,16 +1,31 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import Countries from './Countries';
+import Country from './Country';
 
-const DisplayCountries = ({ countries, handleClick }) => (
-  <ul>
-    {countries.map(({ name }) => (
-      <li key={name}>
-        {name}
-        <button id={name} style={{ margin: '10px', background: '#FFF' }} onClick={handleClick}>
-          Show
-        </button>
-      </li>
-    ))}
-  </ul>
-);
+const DisplayCountries = ({ initialCountries }) => {
+  const [countries, setCountries] = useState([]);
+
+  useEffect(() => {
+    setCountries(initialCountries);
+  }, [initialCountries]);
+
+  const length = countries.length;
+  const tooManyMatches = length > 10;
+  const singleMatch = length === 1;
+
+  const handleCLick = event => setCountries([countries.find(country => country.name === event.target.id)]);
+
+  return (
+    <div>
+      {tooManyMatches ? (
+        <p>Too many matches, specify another filter</p>
+      ) : singleMatch ? (
+        <Country country={countries[0]} />
+      ) : (
+        <Countries countries={countries} handleClick={handleCLick} />
+      )}
+    </div>
+  );
+};
 
 export default DisplayCountries;

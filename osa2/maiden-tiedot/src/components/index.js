@@ -1,2 +1,2 @@
-export { default as Countries } from './Countries';
+export { default as DisplayCountries } from './DisplayCountries';
 export { default as Filter } from './Filter';
