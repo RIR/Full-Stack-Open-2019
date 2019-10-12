@@ -18,9 +18,12 @@ const App = () => {
     event.preventDefault();
 
     const add = person => {
-      setPersons(persons.concat(person));
-      setNewName('');
-      setNewNumber('');
+      // TODO
+      axios.post('http://localhost:3001/persons', person).then(response => {
+        setPersons(persons.concat(response.data));
+        setNewName('');
+        setNewNumber('');
+      });
     };
 
     const alreadyAdded = person => persons.some(p => p.name === person.name); // Need for number comparison was not mentioned.
