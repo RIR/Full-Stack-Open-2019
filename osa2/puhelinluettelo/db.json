@@ -12,23 +12,13 @@
     },
     {
       "name": "Dan Abramov",
-      "number": "12-43-234345",
+      "number": "12-34-56",
       "id": 3
     },
     {
-      "name": "Mary Poppendieck",
-      "number": "39-23-6423122",
+      "name": "Martin",
+      "number": "Fowler",
       "id": 4
-    },
-    {
-      "name": "Uuno",
-      "number": "1234",
-      "id": 5
-    },
-    {
-      "name": "toka uuno",
-      "number": "6455544",
-      "id": 6
     }
   ]
 }

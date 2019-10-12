@@ -12,6 +12,11 @@ const App = () => {
     personService.getAll().then(initialPersons => setPersons(initialPersons));
   }, []);
 
+  // Used just for logging the changes in persons
+  useEffect(() => {
+    console.log('Persons:', persons);
+  }, [persons]);
+
   const addPerson = event => {
     event.preventDefault();
 
@@ -27,6 +32,14 @@ const App = () => {
 
     const person = { name: newName, number: newNumber };
     alreadyAdded(person) ? window.alert(`${person.name} is already added to phonebook`) : add(person);
+  };
+
+  const removePerson = (id, name) => () => {
+    if (window.confirm(`Delete ${name}?`)) {
+      personService.remove(id).then(() => {
+        setPersons(persons.filter(person => person.id !== id));
+      });
+    }
   };
 
   const handleNameChange = event => setNewName(event.target.value);
@@ -53,7 +66,7 @@ const App = () => {
         onSubmit={addPerson}
       />
       <h2>Numbers</h2>
-      <Persons persons={filteredPersons} />
+      <Persons persons={filteredPersons} onRemove={removePerson} />
     </div>
   );
 };
