@@ -17,21 +17,42 @@ const App = () => {
     console.log('Persons:', persons);
   }, [persons]);
 
+  const resetFields = () => {
+    setNewName('');
+    setNewNumber('');
+  };
+
   const addPerson = event => {
     event.preventDefault();
 
     const add = person => {
       personService.create(person).then(returnedPerson => {
         setPersons(persons.concat(returnedPerson));
-        setNewName('');
-        setNewNumber('');
+        resetFields();
       });
     };
 
-    const alreadyAdded = person => persons.some(p => p.name === person.name); // Need for number comparison was not mentioned.
+    const modify = (id, person) => {
+      const { name } = person;
+
+      if (window.confirm(`${name} is already added to phonebook, replace the old number with a new one?`)) {
+        personService
+          .update(id, person)
+          .then(returnedPerson => {
+            setPersons(persons.map(person => (person.id !== id ? person : returnedPerson)));
+            resetFields();
+          })
+          .catch(error => {
+            alert(`the person '${name}' was already deleted from server`);
+            setPersons(persons.filter(person => person.id !== id));
+          });
+      }
+    };
 
     const person = { name: newName, number: newNumber };
-    alreadyAdded(person) ? window.alert(`${person.name} is already added to phonebook`) : add(person);
+    const personFound = persons.find(p => p.name === person.name);
+
+    personFound ? modify(personFound.id, person) : add(person);
   };
 
   const removePerson = (id, name) => () => {
