@@ -34,12 +34,17 @@ const App = () => {
     event.preventDefault();
 
     const add = person => {
-      personService.create(person).then(returnedPerson => {
-        setPersons(persons.concat(returnedPerson));
-        resetFields();
+      personService
+        .create(person)
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson));
+          resetFields();
 
-        displayNotification('success', `Added ${person.name}`);
-      });
+          displayNotification('success', `Added ${person.name}`);
+        })
+        .catch(error => {
+          displayNotification('error', error.response.data.error);
+        });
     };
 
     const modify = (id, person) => {
@@ -89,6 +94,7 @@ const App = () => {
   Also didn't feel the need to create a state for this, since it can be derived from persons and filter states.
   Not sure, what's the convention in these cases.
   */
+
   const filteredPersons = persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()));
 
   return (
