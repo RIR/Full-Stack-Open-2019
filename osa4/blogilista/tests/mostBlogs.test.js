@@ -1,6 +1,6 @@
 const listHelper = require('../utils/list_helper');
 
-describe('Favorite Blog', () => {
+describe('Most Blogs', () => {
   const emptyList = [];
 
   const listWithOneBlog = [
@@ -65,20 +65,18 @@ describe('Favorite Blog', () => {
     }
   ];
 
-  test("when list is empty, the test result should equal to undefined, since there can't be a favorite blog ", () => {
-    const result = listHelper.favoriteBlog(emptyList);
+  test('when list is empty, the test result should equal to undefined, since no one has blogs ', () => {
+    const result = listHelper.mostBlogs(emptyList);
     expect(result).toBe(undefined);
   });
 
-  test('when list has only one blog, that should be the favorite', () => {
-    const { title, author, likes } = listWithOneBlog[0];
-    const result = listHelper.favoriteBlog(listWithOneBlog);
-    expect(result).toEqual({ title, author, likes });
+  test('when list has only one blog, author of that should has the most blogs', () => {
+    const result = listHelper.mostBlogs(listWithOneBlog);
+    expect(result).toEqual({ author: 'Edsger W. Dijkstra', blogs: 1 });
   });
 
-  test('when list has multiple blogs test result should equal the most liked blog ', () => {
-    const { title, author, likes } = listWithMultipleBlogs[2];
-    const result = listHelper.favoriteBlog(listWithMultipleBlogs);
-    expect(result).toEqual({ title, author, likes });
+  test('when list has multiple blogs test result should equal to the author with the most blogs ', () => {
+    const result = listHelper.mostBlogs(listWithMultipleBlogs);
+    expect(result).toEqual({ author: 'Robert C. Martin', blogs: 3 });
   });
 });
