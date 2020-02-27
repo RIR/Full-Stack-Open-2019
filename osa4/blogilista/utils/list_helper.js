@@ -26,9 +26,29 @@ const mostBlogs = blogs => {
   return { author, blogs: blogCount };
 };
 
+const mostLikes = blogs => {
+  if (blogs.length === 0) return undefined;
+
+  // Chaining used in mostBlogs function is easier to read, but reduce didn't play together with entries for some
+  // reason when using it so I implemented it this way, since didn't want to spend more time with
+  const countObj = _.reduce(
+    blogs,
+    (likesObject, blog) => {
+      likesObject[blog.author] = likesObject[blog.author] + blog.likes || blog.likes;
+      return likesObject;
+    },
+    {}
+  );
+
+  const [author, likes] = _.maxBy(_.entries(countObj), _.last);
+
+  return { author, likes };
+};
+
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
-  mostBlogs
+  mostBlogs,
+  mostLikes
 };
